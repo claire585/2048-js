@@ -1,0 +1,76 @@
+<html lang="en">
+    <head>
+        <title>2048 Puzzle Game</title>
+        <meta charset="utf-8">
+        <style>
+            body {
+                width: 80%;
+            }
+            
+            td {
+                margin: 1rem;
+                width: 6rem;
+                height: 6rem;
+                border: 1px solid black;
+                border-radius: 8%;
+            }
+            
+            table {
+                border-spacing: .3rem;
+            }
+            
+        </style>
+        <script type="text/javascript" src="model2048.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>2048</h1>
+        </header>
+        <main>
+            <section id="gameContainer">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </section>
+            <aside id="rules">
+                <ul>
+                    <li>
+                        Use the arrow keys to slide all tiles up, down, left, or right across the board.
+                    </li>
+                    <li>
+                        When two tiles labeled with the same number collide, they will merge into one tile containing the product of those two numbers.
+                    </li>
+                    <li>
+                        During each turn, a new tile labeled with a 2 or a 4 will appear in a random empty space on the board.
+                    </li>
+                    <li>
+                        To win the game, create a tile containing the number 2048.
+                    </li>
+                </ul>
+            </aside>
+        </main>
+    </body>
+</html>
