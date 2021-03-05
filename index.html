@@ -21,6 +21,7 @@
             
         </style>
         <script type="text/javascript" src="model2048.js"></script>
+        <script type="text/javascript" src="controller2048.js"></script>
     </head>
     <body>
         <header>
@@ -28,7 +29,7 @@
         </header>
         <main>
             <section id="gameContainer">
-                <table>
+                <table id="gameGrid">
                     <tr>
                         <td></td>
                         <td></td>
@@ -54,6 +55,7 @@
                         <td></td>
                     </tr>
                 </table>
+                <p id="keyType"></p>
             </section>
             <aside id="rules">
                 <ul>

@@ -6,9 +6,15 @@ function GameGrid()
         this.grid[i] = [" ", " ", " ", " "];
     }
     
-    this.generateRandomTile = function()
+    /*
+        findEmptyTiles() returns an array containing all empty tiles on the game grid.
+        The return value is an array of objects of the form {row: <int>, col: <int>}.
+    */
+    this.findEmptyTiles = function()
     {
         var emptyTiles = [];
+        
+        //Get a list of all empty tiles in the grid
         for (let row = 0; row < 4; row++)
         {
             for (let col = 0; col < 4; col++)
@@ -19,16 +25,52 @@ function GameGrid()
                 }
             }
         }
-        var rand = Math.floor(Math.random() * 4);
-    }
+        return emptyTiles;
+    };
+    
+    /*
+        generateRandomTile() will be called after the user moves the tiles each turn.
+        This method will randomly select an empty tile in the game grid and place a 
+            2 in that tile.
+    */
+    this.generateRandomTile = function()
+    {
+        var emptyTiles = findEmptyTiles();
+        
+        //Randomly select an empty tile and place a 2 in that tile
+        var rand = Math.floor(Math.random() * emptyTiles.length);
+        grid[emptyTiles[rand].row][emptyTiles[rand].col] = 2;
+    };
+    
     
     this.init = function()
     {
+        generateRandomTile();
+    };
+    
+    this.doTurn = function(keyboardEvent)
+    {
+        if (keyboardEvent.code == "ArrowUp")
+        {
+            moveUp();
+            collapseTiles("UP");
+            moveUp();
+        }
+        else if (keyboardEvent.code == "ArrowDown")
+        {
+            moveDown();
+            collapseTiles("DOWN");
+            moveDown();
+        }
         
+        generateRandomTile();
     }
     
-    //up() will be called when the user slides all tiles upwards
-    this.up = function()
+    /* 
+        moveUp() will be called when the user slides all tiles upwards, such as by pressing
+            the up arrow key.  
+    */
+    this.moveUp = function()
     {
         for (let col = 0; col < 4; col++)
         {
@@ -45,7 +87,7 @@ function GameGrid()
                         if (grid[temprow][col] == " ")
                         {
                             grid[temprow][col] = temp;
-                            grid[row][col] = " ";
+                            grid[temprow + 1][col] = " ";
                         }
                         else
                         {
@@ -57,7 +99,11 @@ function GameGrid()
         }
     };
     
-    this.down = function()
+    /* 
+        moveDown() will be called when the user slides all tiles downwards, such as by pressing
+            the down arrow key.  
+    */
+    this.moveDown = function()
     {
         for (let col = 0; col < 4; col++)
         {
@@ -66,16 +112,53 @@ function GameGrid()
                 if (grid[row][col] != " ")
                 {
                     let temp = grid[row][col];
-                    for (let temprow = row; row < 4; row++)
+                    for (let temprow = row + 1; temprow < 4; temprow++)
                     {
-                        if (grid[row][temprow] == " ")
+                        if (grid[temprow][col] == " ")
                         {
                             grid[temprow][col] = temp;
-                            grid[row][col] = " ";
+                            grid[temprow - 1][col] = " ";
                         }
                     }
                 }
             }
         }
     };
+    
+    this.collapseTiles = function(direction)
+    {
+        if (direction == "UP")
+        {
+            for (let col = 0; col < 4; col++)
+            {
+                for (let row = 0; row <= 2; row++)
+                {
+                    if (grid[row][col] != " " && grid[row + 1][col] == grid[row][col])
+                    {
+                        grid[row][col] += grid[row][col];
+                        grid[row + 1][col] = " ";
+                    }
+                }
+            }
+        }
+        else if (direction == "DOWN")
+        {
+            for (let col = 0; col < 4; col++)
+            {
+                for (let row = 3; row >= 1; row--)
+                {
+                    if (grid[row][col] != " " && grid[row - 1][col] == grid[row][col])
+                    {
+                        grid[row][col] += grid[row][col];
+                        grid[row - 1][col] = " ";
+                    }
+                }
+            }
+        }
+    };
+    
+    
+    return this;
 }
+
+
