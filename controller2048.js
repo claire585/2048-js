@@ -1,5 +1,6 @@
 
 
+
 function drawGame(game)
 {
     var trRowList = document.querySelectorAll("table#gameGrid tr");
@@ -9,14 +10,20 @@ function drawGame(game)
         for (let col = 0; col < 4; col++)
         {
             colTiles[col].innerHTML = game.grid[row][col];
+            colTiles[col].className = "num" + game.grid[row][col];
         }
     }
 }
 
+function updateGraphics()
+{
+    
+}
+
+let game = GameGrid();
 
 window.onload = function()
 {
-    var game = GameGrid();
     game.init();
     drawGame(game);
     window.onkeydown = function(event) {

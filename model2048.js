@@ -1,6 +1,7 @@
 function GameGrid()
 {
     this.grid = [];
+    this.graphicsUpdateFunction = function() {};
     for (let i = 0; i < 4; i++)
     {
         this.grid[i] = [" ", " ", " ", " "];
@@ -43,9 +44,10 @@ function GameGrid()
     };
     
     
-    this.init = function()
+    this.init = function(graphicsUpdateFunction)
     {
         generateRandomTile();
+        this.graphicsUpdateFunction = graphicsUpdateFunction;
     };
     
     this.doTurn = function(keyboardEvent)
@@ -62,8 +64,20 @@ function GameGrid()
             collapseTiles("DOWN");
             moveDown();
         }
+        else if (keyboardEvent.code == "ArrowLeft")
+        {
+            moveLeft();
+            collapseTiles("LEFT");
+            moveLeft();
+        }
+        else if (keyboardEvent.code == "ArrowRight")
+        {
+            moveRight();
+            collapseTiles("RIGHT");
+            moveRight();
+        }
         
-        generateRandomTile();
+       generateRandomTile();
     }
     
     /* 
@@ -125,6 +139,50 @@ function GameGrid()
         }
     };
     
+    this.moveLeft = function()
+    {
+        for (let row = 0; row < 4; row++)
+        {
+            for (let col = 0; col < 4; col++)
+            {
+                if (grid[row][col] != " ")
+                {
+                    let temp = grid[row][col];
+                    for (let tempcol = col - 1; tempcol >= 0; tempcol--)
+                    {
+                        if (grid[row][tempcol] == " ")
+                        {
+                            grid[row][tempcol] = temp;
+                            grid[row][tempcol + 1] = " ";
+                        }
+                    }
+                }
+            }
+        }   
+    };
+    
+    this.moveRight = function() 
+    {
+        for (let row = 0; row < 4; row++)
+        {
+            for (let col = 3; col >= 0; col--)
+            {
+                if (grid[row][col] != " ")
+                {
+                    let temp = grid[row][col];
+                    for (let tempcol = col + 1; tempcol < 4; tempcol++)
+                    {
+                        if (grid[row][tempcol] == " ")
+                        {
+                            grid[row][tempcol] = temp;
+                            grid[row][tempcol - 1] = " ";
+                        }
+                    }
+                }
+            }
+        }
+    };
+    
     this.collapseTiles = function(direction)
     {
         if (direction == "UP")
@@ -140,7 +198,7 @@ function GameGrid()
                     }
                 }
             }
-        }
+        }//if
         else if (direction == "DOWN")
         {
             for (let col = 0; col < 4; col++)
@@ -154,7 +212,35 @@ function GameGrid()
                     }
                 }
             }
-        }
+        } //else if
+        else if (direction == "RIGHT")
+        {
+            for (let row = 0; row < 4; row++)
+            {
+                for (let col = 3; col >= 1; col--)
+                {
+                    if (grid[row][col] != " " && grid[row][col - 1] == grid[row][col])
+                    {
+                        grid[row][col] += grid[row][col];
+                        grid[row][col - 1] = " ";
+                    }
+                }
+            }
+        }//else if 
+        else //direction == "LEFT" 
+        {
+            for (let row = 0; row < 4; row++)
+            {
+                for (let col = 0; col <= 2; col++)
+                {
+                    if (grid[row][col] != " " && grid[row][col] == grid[row][col + 1])
+                    {
+                        grid[row][col] += grid[row][col];
+                        grid[row][col + 1] = " ";
+                    }
+                }
+            }
+        }//else
     };
     
     
