@@ -15,21 +15,40 @@ function drawGame(game)
     }
 }
 
-function updateGraphics()
+function updateGraphics(direction, curX, curY)
 {
+    let row = document.querySelectorAll("#gameGrid tr")[curY];
+    let tile = row[curX];
     
 }
 
+
+
+function testGridColors()
+{
+    var rows = document.querySelectorAll("#gameGrid tr td");
+    for (let i = 0; i < rows.length; i++)
+    {
+        if ( (2 ** (i + 1)) <= 2048)
+        {
+            rows[i].innerHTML = 2 ** (i + 1);
+            rows[i].className = `num${2 ** (i + 1)}`;
+        }
+    }
+}
+
 let game = GameGrid();
+
+
 
 window.onload = function()
 {
     game.init();
     drawGame(game);
     window.onkeydown = function(event) {
-        var temp = document.getElementById("keyType");
-        temp.innerHTML = event.code;
         game.doTurn(event);
         drawGame(game);
     };
+    //testGridColors();
+    
 }

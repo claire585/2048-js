@@ -47,37 +47,42 @@ function GameGrid()
     this.init = function(graphicsUpdateFunction)
     {
         generateRandomTile();
+        generateRandomTile();
         this.graphicsUpdateFunction = graphicsUpdateFunction;
     };
     
     this.doTurn = function(keyboardEvent)
     {
+        let tilesMoved = false;
         if (keyboardEvent.code == "ArrowUp")
         {
-            moveUp();
-            collapseTiles("UP");
-            moveUp();
+            tilesMoved |= moveUp();
+            tilesMoved |= collapseTiles("UP");
+            tilesMoved |= moveUp();
         }
         else if (keyboardEvent.code == "ArrowDown")
         {
-            moveDown();
-            collapseTiles("DOWN");
-            moveDown();
+            tilesMoved |= moveDown();
+            tilesMoved |= collapseTiles("DOWN");
+            tilesMoved |= moveDown();
         }
         else if (keyboardEvent.code == "ArrowLeft")
         {
-            moveLeft();
-            collapseTiles("LEFT");
-            moveLeft();
+            tilesMoved |= moveLeft();
+            tilesMoved |= collapseTiles("LEFT");
+            tilesMoved |= moveLeft();
         }
         else if (keyboardEvent.code == "ArrowRight")
         {
-            moveRight();
-            collapseTiles("RIGHT");
-            moveRight();
+            tilesMoved |= moveRight();
+            tilesMoved |= collapseTiles("RIGHT");
+            tilesMoved |= moveRight();
         }
         
-       generateRandomTile();
+        if (tilesMoved)
+        {
+            generateRandomTile();
+        }
     }
     
     /* 
@@ -86,6 +91,7 @@ function GameGrid()
     */
     this.moveUp = function()
     {
+        let moved = false;
         for (let col = 0; col < 4; col++)
         {
             for (let row = 0; row < 4; row++)
@@ -102,6 +108,7 @@ function GameGrid()
                         {
                             grid[temprow][col] = temp;
                             grid[temprow + 1][col] = " ";
+                            moved = true;
                         }
                         else
                         {
@@ -111,6 +118,7 @@ function GameGrid()
                 }
             }
         }
+        return moved;
     };
     
     /* 
@@ -119,6 +127,7 @@ function GameGrid()
     */
     this.moveDown = function()
     {
+        let moved = false;
         for (let col = 0; col < 4; col++)
         {
             for (let row = 3; row >= 0; row--)
@@ -132,15 +141,18 @@ function GameGrid()
                         {
                             grid[temprow][col] = temp;
                             grid[temprow - 1][col] = " ";
+                            moved = true;
                         }
                     }
                 }
             }
         }
+        return moved;
     };
     
     this.moveLeft = function()
     {
+        let moved = false;
         for (let row = 0; row < 4; row++)
         {
             for (let col = 0; col < 4; col++)
@@ -154,15 +166,18 @@ function GameGrid()
                         {
                             grid[row][tempcol] = temp;
                             grid[row][tempcol + 1] = " ";
+                            moved = true;
                         }
                     }
                 }
             }
         }   
+        return moved;
     };
     
     this.moveRight = function() 
     {
+        let moved = false;
         for (let row = 0; row < 4; row++)
         {
             for (let col = 3; col >= 0; col--)
@@ -176,15 +191,18 @@ function GameGrid()
                         {
                             grid[row][tempcol] = temp;
                             grid[row][tempcol - 1] = " ";
+                            moved = true;
                         }
                     }
                 }
             }
         }
+        return moved;
     };
     
     this.collapseTiles = function(direction)
     {
+        let moved = false;
         if (direction == "UP")
         {
             for (let col = 0; col < 4; col++)
@@ -195,6 +213,7 @@ function GameGrid()
                     {
                         grid[row][col] += grid[row][col];
                         grid[row + 1][col] = " ";
+                        moved = true;
                     }
                 }
             }
@@ -209,6 +228,7 @@ function GameGrid()
                     {
                         grid[row][col] += grid[row][col];
                         grid[row - 1][col] = " ";
+                        moved = true;
                     }
                 }
             }
@@ -223,6 +243,7 @@ function GameGrid()
                     {
                         grid[row][col] += grid[row][col];
                         grid[row][col - 1] = " ";
+                        moved = true;
                     }
                 }
             }
@@ -237,10 +258,12 @@ function GameGrid()
                     {
                         grid[row][col] += grid[row][col];
                         grid[row][col + 1] = " ";
+                        moved = true;
                     }
                 }
             }
         }//else
+        return moved;
     };
     
     
