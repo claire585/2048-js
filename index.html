@@ -1,92 +1,15 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>2048 Puzzle Game</title>
         <meta charset="utf-8">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet"> 
-        <style>
-            body {
-                width: 80%;
-                margin: auto;
-            }
-            
-            td {
-                margin: 1rem;
-                width: 6rem;
-                height: 6rem;
-                border: 1px solid black;
-                border-radius: 8%;
-                text-align: center;
-                font-family: 'Roboto Mono', monospace;
-                font-weight: 600;
-                font-size: 2.2rem;
-            }
-            
-            table {
-                border-spacing: .3rem;
-                margin: auto;
-            }
-           
-             
-            td.num2 {
-                background-color: #d7ffff;    /* very light blue */
-                color: black;
-            }
-            td.num4 {
-                background-color: #97ffff;  /* light blue again */
-                color: black;
-                
-                /* light blue "paleturquoise1" #bbffff */
-            }
-            td.num8 {
-                background-color: #05E9FF;  /* indiglo; sky blue */
-                background-color: #05b8cc;  /* cerulean */
-                color: white;
-            }
-            td.num16 {
-                background-color: #1078ab; /* dark teal; deepskyblue4 */
-                color: white;
-                
-            }
-            td.num32 {
-                background-color: #00C2FE;/*#87CEFA; /*#00bfff; /* deepskyblue */
-                color: white;
-            }
-            td.num64 {
-                background-color: #007fff; /*#6378FF; /* indigo dye; navy blue*/ 
-                /*#AB82FF; /* medium purple 1*/
-                color: white;
-            }
-            td.num128 {
-                background-color: #6378FF;/*#007fff; /*#9370db; /* greyish purple */
-                color: white;
-            }
-            td.num256 {
-                background-color: #AF8FFF; /*medium purple 1 */ /*#75a1d0;  /* blueberry; grey-blue */
-                color: white;
-                background-color: #9370fb;
-                color: white;
-            } /* */
-            td.num512 {
-                background-color: #007fff; /* bright deep blue */
-                color: white;
-                background-color: #d370fb;
-                color: white;
-            }
-            
-            td.num1024 {
-                background-color: #f370db;
-                color: white;
-            }
-            td.num2048 {
-                background-color: #f350ab;
-                color: white;
-            }
-            
-        </style>
+        <link rel='stylesheet' href='styles.css'>
         <script type="text/javascript" src="model2048.js"></script>
         <script type="text/javascript" src="controller2048.js"></script>
     </head>
+    
     <body>
         <header>
             <h1>2048</h1>
@@ -119,27 +42,38 @@
                         <td></td>
                     </tr>
                 </table>
-                
             </section>
+            
             <aside id="rules">
-                <ul>
-                    <li>
-                        Use the arrow keys to slide all tiles up, down, left, or right across the board.
-                    </li>
-                    <li>
-                        When two tiles labeled with the same number collide, they will merge into one tile containing the product of those two numbers.
-                    </li>
-                    <li>
-                        During each turn, a new tile labeled with a 2 or a 4 will appear in a random empty space on the board.
-                    </li>
-                    <li>
-                        To win the game, create a tile containing the number 2048.
-                    </li>
-                </ul>
+                <h2>Rules</h2>
+                <div id="rulesList">
+                    <ul>
+                        <li>
+                            Use the arrow keys to slide tiles up, down, left, or right across the board. 
+                        </li>
+                        <li>
+                            When two tiles labeled with the same number collide, they will merge into one tile containing the product of those two numbers.
+                        </li>
+                        <li>
+                            After the player slides the tiles across the game board, a new tile labeled with a 2 or a 4 will appear in a random empty space on the board.
+                        </li>
+                        <li>
+                            To win the game, create a tile containing the number 2048.
+                        </li>
+                    </ul>
+                </div>
             </aside>
         </main>
-        <script>
-            
-        </script>
+        
+        <div id='popup' class='hidden'>
+            <section id='gameOverScreen' class='hidden'>
+                <div id='gameOverControls'>
+                    <h2>Game Over!</h2>
+                    <p>Play Again?</p>
+                    <button type='button' id='playAgainButton'>OK</button>
+                </div>
+            </section>
+        </div>
+
     </body>
 </html>

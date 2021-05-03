@@ -1,11 +1,37 @@
+/*
+    Constructor function for the GameGrid, which represents the current state of the 2048 game 
+    grid as a 4-by-4 array.
+*/  
 function GameGrid()
 {
+    //A boolean value indicating if the game is over (player lost) or not
+    this.gameOver = false;
+    
+    //grid == 2D, 4x4 array representing the game "board"
     this.grid = [];
-    this.graphicsUpdateFunction = function() {};
-    for (let i = 0; i < 4; i++)
+    
+    
+    /*
+        The init() method should be called after the GameGrid object is created and before the 
+        user takes their first turn. 
+        It can also be used to reset the GameGrid object so the user can play again after winning or losing.
+        It initializes the game grid array and places two '2''s in random places on the grid.
+        The parameter is a function to be called whenever graphics need to update.
+        TODO: Make the graphicsUpdateFunction implement "sliding" animations for the tiles.
+    */
+    this.init = function(graphicsUpdateFunction)
     {
-        this.grid[i] = [" ", " ", " ", " "];
-    }
+        gameOver = false;
+        grid = [];
+        for (let i = 0; i < 4; i++)
+        {
+            grid[i] = [" ", " ", " ", " "];
+        }
+        generateRandomTile();
+        generateRandomTile();
+        this.graphicsUpdateFunction = graphicsUpdateFunction;
+    };
+    
     
     /*
         findEmptyTiles() returns an array containing all empty tiles on the game grid.
@@ -13,7 +39,7 @@ function GameGrid()
     */
     this.findEmptyTiles = function()
     {
-        var emptyTiles = [];
+        let emptyTiles = [];
         
         //Get a list of all empty tiles in the grid
         for (let row = 0; row < 4; row++)
@@ -32,28 +58,38 @@ function GameGrid()
     /*
         generateRandomTile() will be called after the user moves the tiles each turn.
         This method will randomly select an empty tile in the game grid and place a 
-            2 in that tile.
+        2 in that tile.
     */
     this.generateRandomTile = function()
     {
-        var emptyTiles = findEmptyTiles();
+        let emptyTiles = findEmptyTiles();
         
         //Randomly select an empty tile and place a 2 in that tile
-        var rand = Math.floor(Math.random() * emptyTiles.length);
+        let rand = Math.floor(Math.random() * emptyTiles.length);
         grid[emptyTiles[rand].row][emptyTiles[rand].col] = 2;
     };
     
     
-    this.init = function(graphicsUpdateFunction)
-    {
-        generateRandomTile();
-        generateRandomTile();
-        this.graphicsUpdateFunction = graphicsUpdateFunction;
-    };
-    
+    /*
+        This method will be called whenever the user takes a turn by pressing an arrow key.
+        The doTurn() method expects a KeyboardEvent as its parameter.
+        If the key pressed to generate the KeyboardEvent was an arrow key, this method
+        calls the appropriate method(s) to "slide" all tiles on the game grid in the 
+        appropriate direction. It then calls generateRandomTile() to place a new number tile
+        in a random empty space on the grid.
+        
+        If, after sliding all tiles and generating a random tile, the board is full, the game is over.
+        If the game is over, doTurn() sets the gameOver property to true.
+    */
     this.doTurn = function(keyboardEvent)
     {
         let tilesMoved = false;
+        
+        //For each possible arrow key:
+            //Call the appropriate "move" method to slide all tiles in the specified direction.
+            //Collapse the tiles in the specified direction by calling collapseTiles()
+            //Call the "move" method once more to fill in any gaps caused by collapsing the tiles.
+            
         if (keyboardEvent.code == "ArrowUp")
         {
             tilesMoved |= moveUp();
@@ -83,11 +119,23 @@ function GameGrid()
         {
             generateRandomTile();
         }
+        
+        //Check to see if there is any empty space in the grid.
+        //If grid is full, game is over.
+        if (findEmptyTiles().length === 0)
+        {
+            this.gameOver = true;
+        }
+        else
+        {
+            this.gameOver = false;
+        }
     }
     
     /* 
-        moveUp() will be called when the user slides all tiles upwards, such as by pressing
-            the up arrow key.  
+        moveUp() will be called by the doTurn() method when the user slides all tiles upwards, 
+        such as by pressing the up arrow key.  
+        It returns the boolean value true if any tiles were moved, false otherwise.
     */
     this.moveUp = function()
     {
@@ -101,7 +149,7 @@ function GameGrid()
                 {
                     let temp = grid[row][col];
                     
-                    //"slide" the nonempty tile upwards until
+                    //"slide" the nonempty tile upwards
                     for (let temprow = row - 1; temprow >= 0; temprow--)
                     {
                         if (grid[temprow][col] == " ")
@@ -122,8 +170,9 @@ function GameGrid()
     };
     
     /* 
-        moveDown() will be called when the user slides all tiles downwards, such as by pressing
-            the down arrow key.  
+        moveDown() will be called by the doTurn() method when the user slides all tiles downwards, 
+        such as by pressing the down arrow key.  
+        It returns the boolean value true if any tiles were moved, false otherwise.
     */
     this.moveDown = function()
     {
@@ -150,6 +199,10 @@ function GameGrid()
         return moved;
     };
     
+    /*
+        moveLeft() will be called by the doTurn() method when the user slides all tiles to the left.
+        It returns the boolean value true if any tiles were moved, false otherwise.
+    */
     this.moveLeft = function()
     {
         let moved = false;
@@ -175,6 +228,10 @@ function GameGrid()
         return moved;
     };
     
+    /*
+        moveRight() will be called by the doTurn() method when the user slides all tiles to the right.
+        It returns the boolean value true if any tiles were moved, false otherwise.
+    */
     this.moveRight = function() 
     {
         let moved = false;
@@ -200,10 +257,18 @@ function GameGrid()
         return moved;
     };
     
+    /*
+        The collapseTiles() method is called by the doTurn() method after moveUp()/moveDown(),etc.
+        Given a string parameter indicating the direction that the tiles were just moved, this method
+        detects any instances of two tiles with the same number "colliding" with each other in the 
+        specified direction and collapses them into one tile with the appropriate number label in the 
+        same direction.
+        Returns the boolean value true if any tiles were collapsed, false otherwise.
+    */
     this.collapseTiles = function(direction)
     {
         let moved = false;
-        if (direction == "UP")
+        if (direction == "UP")  
         {
             for (let col = 0; col < 4; col++)
             {
@@ -267,7 +332,7 @@ function GameGrid()
     };
     
     
+    
     return this;
 }
-
 
