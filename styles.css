@@ -1,0 +1,150 @@
+html {
+    background-color: #00C2FE;
+}
+
+main {
+    position: static;
+}
+
+body {
+    position: relative;
+    width: 70%;
+    margin: auto;
+    font-size: 1rem;
+    background-color: white;
+    padding: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 30px;
+}
+
+h1, h2, #rulesList, #gameContainer, #gameOverScreen {
+    padding: .5rem;
+    border-radius: 30px;
+}
+
+h1, h2 {
+    font-size: 2rem;
+}
+
+h1, h2, #rulesList {
+    padding-left: 4rem;
+    margin-left: 0;
+}
+
+td {
+    margin: 1rem;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 8%;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 600;
+    font-size: 2.2rem;
+}
+
+td, h1, h2, #rulesList, #gameOverScreen {
+    color: #107070;
+    border: .2rem solid #107070;
+}  
+
+#popup {
+    color: #107070;
+    border-radius: 30px;
+} 
+
+table {
+    border-spacing: .3rem;
+    margin: auto;
+}
+
+ 
+td.num2 {
+    background-color: #d7ffff;    
+    
+}
+td.num4 {
+    background-color: #97ffff;  
+    
+}
+td.num8 {
+    background-color: #05b8cc;  
+    color: white;
+}
+td.num16 {
+    background-color: #1078ab; 
+    color: white;
+}
+td.num32 {
+    background-color: #00C2FE;
+    color: white;
+}
+td.num64 {
+    background-color: #007fff; 
+    color: white;
+}
+td.num128 {
+    background-color: #6378FF;
+    color: white;
+}
+td.num256 {
+    background-color: #9370fb;
+    color: white;
+}
+td.num512 {
+    background-color: #d370fb;
+    color: white;
+}
+td.num1024 {
+    background-color: #f370db;
+    color: white;
+}
+td.num2048 {
+    background-color: #f350ab;
+    color: white;
+}
+
+ul {
+    list-style-position: outside;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+#popup.hidden {
+    display: none;
+}
+
+#popup.show {
+    display: block;
+}
+
+#popup {
+    background-color: rgba(151, 255, 255, 0.5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: auto;
+    z-index: 20;
+    width: 100%;
+    height: 100%;
+}
+
+#gameOverScreen {
+    background-color: white;
+    width: 60%;
+    margin: auto;
+    z-index: 20;
+    margin-top: 6rem;
+}
+
+#gameOverScreen h2 {
+    padding: 1rem;
+}
+
+#gameOverControls {
+    width: 60%;
+    text-align: center;
+    padding: 4rem;
+    margin: auto;
+}
+
